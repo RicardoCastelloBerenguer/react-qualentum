@@ -1,8 +1,14 @@
 import React from "react";
+import { useAppTheme } from "../../contexts/AppThemeContext";
 
 function Footer() {
+  const { theme } = useAppTheme();
   return (
-    <footer className="footer h-[100px] bg-[#333333] text-white flex flex-col justify-center h-full">
+    <footer
+      className={`footer h-[100px]  text-white flex flex-col justify-center h-full ${
+        theme === "light" ? "bg-[#333333]" : "bg-black"
+      }`}
+    >
       <header className="flex  justify-center gap-32 border-b p-3">
         <div className="contact flex flex-col">
           <span className="font-semibold mb-1">Contacto</span>
