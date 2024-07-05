@@ -31,7 +31,6 @@ function App() {
           <AppThemeProvider>
             <Header onToggleCart={toggleCart} onChangeFilter={filterProducts} />
             {showCart ? <CartContainer /> : <ClothContainer filter={filter} />}
-
             <AuthForm />
             <Footer />
           </AppThemeProvider>

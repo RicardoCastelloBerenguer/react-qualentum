@@ -7,17 +7,20 @@ import { CiDark } from "react-icons/ci";
 import { useCarrito } from "../../contexts/CarritoContext";
 import { useAppTheme } from "../../contexts/AppThemeContext";
 import { useUserAuth } from "../../contexts/UserAuthContext";
+import { useFilterCloth } from "../../contexts/FilterClothContext";
+import { Link } from "react-router-dom";
 
-function Header({ onToggleCart, onChangeFilter }) {
+function Header({ onToggleCart }) {
   const { user } = useUserAuth();
   const { carrito } = useCarrito();
   const { theme, toggleTheme } = useAppTheme();
+  const { filter, filterProducts } = useFilterCloth();
   const [newFilter, setNewFilter] = useState("");
 
   const handleFilterChange = (event) => {
     const value = event.target.value;
     setNewFilter(value);
-    onChangeFilter(value);
+    filterProducts(value);
   };
 
   return (
@@ -31,9 +34,9 @@ function Header({ onToggleCart, onChangeFilter }) {
           >
             <div className="flex flex-grow-0 items-center gap-5 text-xs sm:text-sm md:text-base">
               <li className="nav-element">
-                <a onClick={onToggleCart} className="font-bold" href="#">
+                <Link to={"/"} className="font-bold" href="#">
                   MiTienda
-                </a>
+                </Link>
               </li>
               <li className="nav-element">
                 <a href="#">Inicio</a>
@@ -64,7 +67,9 @@ function Header({ onToggleCart, onChangeFilter }) {
               className="flex gap-4 items-center pr-4 [&>li]:hover:cursor-pointer bg-none [&>li]:bg-none"
             >
               <li className="transition duration-300 ease-in-out transform hover:scale-110">
-                <FaRegUser style={{ color: "white" }} />
+                <Link to={"/login"}>
+                  <FaRegUser style={{ color: "white" }} />
+                </Link>
               </li>
               <li className="transition duration-300 ease-in-out transform hover:scale-110">
                 <FaHeart style={{ color: "white" }} />
@@ -74,12 +79,14 @@ function Header({ onToggleCart, onChangeFilter }) {
               </li>
 
               <li className="realtive transition duration-300 ease-in-out transform hover:scale-110">
-                <FaCartPlus onClick={onToggleCart} style={{ color: "white" }} />
-                {carrito.length > 0 && (
-                  <span className="absolute bottom-2 font-bold left-3 text-xs bg-blue-500 rounded-full px-1.5">
-                    {carrito.reduce((total, item) => total + item.counter, 0)}
-                  </span>
-                )}
+                <Link to={"/cart"}>
+                  <FaCartPlus style={{ color: "white" }} />
+                  {carrito.length > 0 && (
+                    <span className="absolute bottom-2 font-bold left-3 text-xs bg-blue-500 rounded-full px-1.5">
+                      {carrito.reduce((total, item) => total + item.counter, 0)}
+                    </span>
+                  )}
+                </Link>
               </li>
             </div>
           </ul>

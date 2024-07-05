@@ -5,7 +5,7 @@ function Footer() {
   const { theme } = useAppTheme();
   return (
     <footer
-      className={`footer h-[100px]  text-white flex flex-col justify-center h-full ${
+      className={`footer h-[100px]  text-white flex flex-col justify-center h-full mt-10 ${
         theme === "light" ? "bg-[#333333]" : "bg-black"
       }`}
     >

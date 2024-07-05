@@ -2,7 +2,10 @@ import React from "react";
 import productsData from "../../../data.json";
 import ClothCard from "../ClothCard/ClothCard";
 
-function ClothContainer({ filter }) {
+import { useFilterCloth } from "../../contexts/FilterClothContext";
+
+function ClothContainer() {
+  const { filter } = useFilterCloth();
   return (
     <div
       id="card-cloth-container"
