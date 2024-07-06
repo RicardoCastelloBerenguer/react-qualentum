@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { useCarrito } from "../../contexts/CarritoContext";
+import { useUserAuth } from "../../contexts/UserAuthContext";
+import { Link } from "react-router-dom";
 
 function ClothCard({ clothProduct }) {
+  const { isLoggedIn, user } = useUserAuth();
   const { carrito, agregarAlCarrito } = useCarrito();
 
   const handleAddToCart = () => {
@@ -11,28 +14,32 @@ function ClothCard({ clothProduct }) {
 
   return (
     <>
-      <div className="clothing-card inline-flex flex-col max-w-[300px] min-h-[600px] border border-[0.5px] ">
-        <header className="overflow-hidden max-w[300px] max-h-[200px]">
-          <img
-            className="w-[300px] h-[300px] "
-            src={clothProduct.image}
-            alt="cloth image"
-          />
-        </header>
-        <div className=" h-full flex flex-col">
-          <h3 className="font-semibold text-lg ">{clothProduct.title}</h3>
+      <div className="clothing-card flex-col max-w-[300px] border  ">
+        <div className="overflow-hidden flex-grow max-w[300px] max-h-[200px]">
+          <Link to={`/products/${clothProduct.id}`} state={clothProduct}>
+            <img
+              className="w-[300px] h-[300px] "
+              src={clothProduct.image}
+              alt="cloth image"
+            />
+          </Link>
+        </div>
 
-          <div className="mx-2 flex items-center h-full">
-            <p className="text-[10px] flex-grow">{clothProduct.description}</p>
+        <div className="flex flex-col h-auto justify-between">
+          <div className="flex flex-col flex-grow">
+            <h3 className="font-semibold text-lg ">{clothProduct.title}</h3>
+
+            <span className="mx-2 text-blue-600 font-semibold ">
+              {clothProduct.price ? `$${clothProduct.price}` : ""}
+            </span>
           </div>
 
-          <span className="mx-2 text-blue-600 font-semibold ">
-            {clothProduct.price ? `$${clothProduct.price}` : ""}
-          </span>
-
           <button
+            disabled={!isLoggedIn}
             onClick={handleAddToCart}
-            className="mt-2 bg-blue-600 rounded-md text-gray-300 py-1 text-sm w-full hover:text-white hover:bg-blue-500"
+            className={`${
+              isLoggedIn ? "hover:cursor-pointer" : "hover:cursor-not-allowed"
+            } mt-2 bg-blue-600 rounded-md text-gray-300 py-1 text-sm w-full hover:text-white hover:bg-blue-500`}
           >
             Agregar al carrito
           </button>

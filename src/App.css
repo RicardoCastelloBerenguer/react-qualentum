@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#color-picker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 150px;
+  height: 100px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: none;
+}

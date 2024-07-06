@@ -10,7 +10,7 @@ import { useUserAuth } from "../../contexts/UserAuthContext";
 import { useFilterCloth } from "../../contexts/FilterClothContext";
 import { Link } from "react-router-dom";
 
-function Header({ onToggleCart }) {
+function Header() {
   const { user } = useUserAuth();
   const { carrito } = useCarrito();
   const { theme, toggleTheme } = useAppTheme();
