@@ -1,12 +1,18 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 import { useCarrito } from "../../contexts/CarritoContext";
 import { useUserAuth } from "../../contexts/UserAuthContext";
+import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import Button from "../UI/Button/Button";
+import useProducts from "../../hooks/api/products";
+import AddProductModal from "../Modals/AddProductModal";
 
-function ClothCard({ clothProduct }) {
+function ClothCard({ clothProduct, handleEdit }) {
+  const { deleteProductById } = useProducts();
   const { isLoggedIn, user } = useUserAuth();
   const { carrito, agregarAlCarrito } = useCarrito();
+  const [showModal, setShowModal] = useState(false);
 
   const handleAddToCart = () => {
     agregarAlCarrito(clothProduct);
@@ -14,37 +20,55 @@ function ClothCard({ clothProduct }) {
 
   return (
     <>
-      <div className="clothing-card flex-col max-w-[300px] border  ">
-        <div className="overflow-hidden flex-grow max-w[300px] max-h-[200px]">
+      <div
+        className="flex flex-col border rounded-lg bg-white w-full h-full items-center
+      "
+      >
+        <CiHeart className="ml-auto mr-2 my-2" size={25} />
+        <div className="w-[60%] h-[60%]">
           <Link to={`/products/${clothProduct.id}`} state={clothProduct}>
             <img
-              className="w-[300px] h-[300px] "
+              className="rounded-lg object-contain w-full h-full transition duration-150
+               hover:scale-105"
               src={clothProduct.image}
               alt="cloth image"
             />
           </Link>
         </div>
 
-        <div className="flex flex-col h-auto justify-between">
-          <div className="flex flex-col flex-grow">
-            <h3 className="font-semibold text-lg ">{clothProduct.title}</h3>
+        <h3 className="text-center font-semibold py-4 mt-8">
+          {clothProduct.title.length > 20
+            ? clothProduct.title.slice(0, 20)
+            : clothProduct.title}
+          {clothProduct.title.length > 20 ? "..." : ""}
+        </h3>
 
-            <span className="mx-2 text-blue-600 font-semibold ">
-              {clothProduct.price ? `$${clothProduct.price}` : ""}
-            </span>
+        <Button onClick={handleAddToCart} className={"bg-[#845df3] mb-4"}>
+          Comprar
+        </Button>
+        {isLoggedIn && user.isAdmin && (
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1 py-4">
+            <Button
+              onClick={() => setShowModal(true)}
+              className={"bg-[#b053eb]"}
+            >
+              Editar
+            </Button>
+            <Button
+              onClick={() => deleteProductById(clothProduct.id)}
+              className={"bg-red-500"}
+            >
+              Eliminar
+            </Button>
           </div>
-
-          <button
-            disabled={!isLoggedIn}
-            onClick={handleAddToCart}
-            className={`${
-              isLoggedIn ? "hover:cursor-pointer" : "hover:cursor-not-allowed"
-            } mt-2 bg-blue-600 rounded-md text-gray-300 py-1 text-sm w-full hover:text-white hover:bg-blue-500`}
-          >
-            Agregar al carrito
-          </button>
-        </div>
+        )}
       </div>
+      {showModal && (
+        <AddProductModal
+          productToEdit={clothProduct}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
     </>
   );
 }

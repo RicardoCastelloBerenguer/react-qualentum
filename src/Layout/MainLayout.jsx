@@ -20,8 +20,7 @@ const MainLayout = () => {
             <AppThemeProvider>
               <Header />
               <Outlet />
-              {/* {showCart ? <CartContainer /> : <ClothContainer filter={filter} />} */}
-              {/* <AuthForm /> */}
+
               <Footer />
             </AppThemeProvider>
           </FilterClothProvider>

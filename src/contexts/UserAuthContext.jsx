@@ -7,20 +7,25 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckedLocalStorage, setIsCheckedLocalStorage] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsCheckedLocalStorage(false);
     const userLocalStorage = JSON.parse(localStorage.getItem("userLogged"));
     if (userLocalStorage) {
       setIsLoggedIn(true);
       setUser(userLocalStorage);
     } else console.log("No previus Data from local storage");
+    setIsCheckedLocalStorage(true);
   }, []);
 
   const loginUser = (newUser) => {
-    console.log("Agregando User : ");
-    console.log(newUser);
+    newUser = { ...newUser, name: newUser.email.split("@")[0] };
+    if (newUser.email.includes("@admin"))
+      newUser = { ...newUser, isAdmin: true };
+    else newUser = { ...newUser, isAdmin: false };
     setUser(newUser);
     setIsLoggedIn(true);
     localStorage.setItem("userLogged", JSON.stringify(newUser));
@@ -36,7 +41,9 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, loginUser, isLoggedIn, logoutUser }}>
+    <UserContext.Provider
+      value={{ user, loginUser, isLoggedIn, logoutUser, isCheckedLocalStorage }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -92,7 +92,7 @@ function Header() {
           </ul>
         </nav>
       </header>
-      <div className="offer flex items-center justify-center mt-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 max-w-[80%] m-auto rounded-md p-5">
+      <div className="offer mb-5 flex items-center justify-center mt-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 max-w-[80%] m-auto rounded-md p-5">
         <p className="text-white font-semibold">
           {user.name
             ? `¡${user.name} , aprovéchate de tu 20% de descuento!`

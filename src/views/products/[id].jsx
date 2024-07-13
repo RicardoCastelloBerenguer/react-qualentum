@@ -1,23 +1,28 @@
-import React, { useEffect, useRef } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-
-import { CiStar } from "react-icons/ci";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import useProducts from "../../hooks/api/products";
 import { FaStar } from "react-icons/fa";
 
 const ProductId = () => {
   const { id } = useParams();
-  const location = useLocation();
-  const maxRating = useRef(5);
-  const product = location.state || { product: null };
+  const { product, fetchProductById, loading, error } = useProducts();
 
-  if (!product) {
-    console.log(location);
-    return (
-      <>
-        <div>Loading</div>
-      </>
-    );
-  } else console.log(location);
+  useEffect(() => {
+    fetchProductById(id); // Llamamos a fetchProductById al cargar el componente o cuando id cambia
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Mostramos un mensaje de carga mientras se obtiene el producto
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Mostramos un mensaje de error en caso de falla
+  }
+
+  // Aseguramos que product esté definido antes de intentar acceder a sus propiedades
+  if (!product || !product.title) {
+    return <div>Product not found</div>; // Manejamos el caso en que product no esté definido adecuadamente
+  }
 
   return (
     <>

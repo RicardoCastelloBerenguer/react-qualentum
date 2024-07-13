@@ -5,18 +5,9 @@ import { Navigate, useLocation } from "react-router-dom";
 const AuthenticatedProtection = ({ children }) => {
   const location = useLocation();
 
-  const { isLoggedIn, setIsLoggedIn } = useUserAuth();
+  const { isLoggedIn, isCheckedLocalStorage } = useUserAuth();
 
-  // useEffect(() => {
-  //   const userLocalStorage = JSON.parse(localStorage.getItem("userLogged"));
-  //   if (userLocalStorage) {
-  //     setIsLoggedIn(true);
-  //   } else console.log("No previus Data from local storage");
-  // }, []);
-
-  console.log(isLoggedIn);
-
-  return isLoggedIn ? (
+  return isLoggedIn || !isCheckedLocalStorage ? (
     children
   ) : (
     <Navigate to={"/login"} state={{ from: location }} />

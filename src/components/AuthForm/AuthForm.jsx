@@ -13,7 +13,7 @@ function AuthForm() {
       console.log(Object.keys(userForm).length);
       if (
         Object.keys(userForm).length === 2 &&
-        userForm.name &&
+        userForm.email &&
         userForm.password
       ) {
         loginUser(userForm);
@@ -37,19 +37,19 @@ function AuthForm() {
             htmlFor="username"
             className="text-gray-500 font-semibold text-sm ml-1"
           >
-            Usuario
+            Email
           </label>
           <div className="flex items-center gap-3 border-b-2 border-gray-300 pb-1">
             <CiUser></CiUser>
             <input
               className="focus:outline-none"
-              id="username"
+              id="email"
               type="text"
-              value={userForm.name ? userForm.name : ""}
-              placeholder="Escribe tu usuario"
+              value={userForm.email ? userForm.email : ""}
+              placeholder="Escribe tu email"
               onChange={(e) =>
                 setUserForm({
-                  name: e.target.value,
+                  email: e.target.value,
                   password: userForm.password,
                 })
               }
@@ -72,7 +72,7 @@ function AuthForm() {
               type="password"
               placeholder="Escribe tu contraseña"
               onChange={(e) =>
-                setUserForm({ name: userForm.name, password: e.target.value })
+                setUserForm({ email: userForm.email, password: e.target.value })
               }
             />
           </div>
