@@ -55,11 +55,13 @@ const ProductId = () => {
             <header className="flex flex-col gap-2">
               <span>Unlimited Drop</span>
               <h3 className="font-semibold">{product.title}</h3>
-              <div className="flex gap-0.5">
-                {Array.from({ length: product.rating.rate }, (_, index) => (
-                  <FaStar size={10} key={index} />
-                ))}
-              </div>
+              {useProducts.rating && (
+                <div className="flex gap-0.5">
+                  {Array.from({ length: product.rating.rate }, (_, index) => (
+                    <FaStar size={10} key={index} />
+                  ))}
+                </div>
+              )}
               <span className="font-semibold">${product.price}</span>
             </header>
             <div className="flex flex-col gap-4">

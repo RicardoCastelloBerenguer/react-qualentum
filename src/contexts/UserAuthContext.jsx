@@ -23,12 +23,16 @@ export const UserProvider = ({ children }) => {
 
   const loginUser = (newUser) => {
     newUser = { ...newUser, name: newUser.email.split("@")[0] };
+
     if (newUser.email.includes("@admin"))
       newUser = { ...newUser, isAdmin: true };
     else newUser = { ...newUser, isAdmin: false };
+
     setUser(newUser);
     setIsLoggedIn(true);
+
     localStorage.setItem("userLogged", JSON.stringify(newUser));
+
     if (location.state?.from) navigate(location.state.from);
     else navigate("/");
   };

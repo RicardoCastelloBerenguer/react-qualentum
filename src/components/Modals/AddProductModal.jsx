@@ -18,6 +18,7 @@ const AddProductModal = ({ closeModal, productToEdit }) => {
     let newProduct = {};
     if (productToEdit) {
       newProduct = {
+        ...productToEdit,
         id: productToEdit.id,
         title: title,
         description: description,
@@ -25,17 +26,20 @@ const AddProductModal = ({ closeModal, productToEdit }) => {
         image: image,
       };
     } else {
-      const newProduct = {
+      newProduct = {
         title: title,
         description: description,
         price: price,
         image: image,
       };
+      console.log(newProduct);
     }
 
     try {
-      if (productToEdit) await editProductById(newProduct);
-      else await postProduct(newProduct);
+      if (productToEdit) {
+        console.log("test");
+        await editProductById(newProduct);
+      } else await postProduct(newProduct);
       closeModal();
     } catch (error) {
       console.error(error);

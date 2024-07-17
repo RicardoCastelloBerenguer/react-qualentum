@@ -41,6 +41,7 @@ const useProducts = () => {
   };
 
   const postProduct = async (newProduct) => {
+    console.log(newProduct);
     setLoading(true);
     try {
       const data = await addProduct(newProduct);

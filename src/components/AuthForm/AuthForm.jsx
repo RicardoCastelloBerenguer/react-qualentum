@@ -10,7 +10,7 @@ function AuthForm() {
   const handleLogin = (event) => {
     event.preventDefault();
     try {
-      console.log(Object.keys(userForm).length);
+      // console.log(Object.keys(userForm).length);
       if (
         Object.keys(userForm).length === 2 &&
         userForm.email &&
