@@ -3,13 +3,18 @@ import { Link, useParams } from "react-router-dom";
 import useProducts from "../../hooks/api/products";
 import { FaStar } from "react-icons/fa";
 
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProductById } from "../../redux/slices/productSlice";
+
 const ProductId = () => {
   const { id } = useParams();
-  const { product, fetchProductById, loading, error } = useProducts();
+
+  const dispatch = useDispatch();
+  const { product, loading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
-    fetchProductById(id); // Llamamos a fetchProductById al cargar el componente o cuando id cambia
-  }, [id]);
+    dispatch(fetchProductById(id)); // Llamamos a fetchProductById al cargar el componente o cuando id cambia
+  }, [dispatch, id]);
 
   if (loading) {
     return <div>Loading...</div>; // Mostramos un mensaje de carga mientras se obtiene el producto

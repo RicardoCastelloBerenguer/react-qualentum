@@ -8,8 +8,12 @@ import Button from "../UI/Button/Button";
 import useProducts from "../../hooks/api/products";
 import AddProductModal from "../Modals/AddProductModal";
 
+import { useSelector, useDispatch } from "react-redux";
+import { deleteProductById } from "../../redux/slices/productSlice";
+
 function ClothCard({ clothProduct, handleEdit }) {
-  const { deleteProductById } = useProducts();
+  const dispatch = useDispatch();
+
   const { isLoggedIn, user } = useUserAuth();
   const { carrito, agregarAlCarrito } = useCarrito();
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +59,7 @@ function ClothCard({ clothProduct, handleEdit }) {
               Editar
             </Button>
             <Button
-              onClick={() => deleteProductById(clothProduct.id)}
+              onClick={() => dispatch(deleteProductById(clothProduct.id))}
               className={"bg-red-500"}
             >
               Eliminar

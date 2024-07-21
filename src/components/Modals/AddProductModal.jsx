@@ -4,8 +4,14 @@ import { IoClose } from "react-icons/io5";
 import Button from "../UI/Button/Button";
 import useProducts from "../../hooks/api/products";
 
+import { useSelector, useDispatch } from "react-redux";
+import { addNewProduct, updateProduct } from "../../redux/slices/productSlice";
+
 const AddProductModal = ({ closeModal, productToEdit }) => {
-  const { postProduct, editProductById, loading, error } = useProducts();
+  // const { postProduct, editProductById, loading, error } = useProducts();
+
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
 
   const [title, setTitle] = useState(productToEdit?.title || "");
   const [description, setDescription] = useState(
@@ -38,8 +44,8 @@ const AddProductModal = ({ closeModal, productToEdit }) => {
     try {
       if (productToEdit) {
         console.log("test");
-        await editProductById(newProduct);
-      } else await postProduct(newProduct);
+        await dispatch(updateProduct(newProduct));
+      } else await dispatch(addNewProduct(newProduct));
       closeModal();
     } catch (error) {
       console.error(error);

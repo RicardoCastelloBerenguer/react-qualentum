@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { ImSpinner2 } from "react-icons/im";
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/slices/productSlice";
 // import productsData from "../../../data/db.json";
 import ClothCard from "../ClothCard/ClothCard";
 
@@ -10,13 +10,22 @@ import { useFilterCloth } from "../../contexts/FilterClothContext";
 import useProducts from "../../hooks/api/products";
 import AddProductModal from "../Modals/AddProductModal";
 
+import { ImSpinner2 } from "react-icons/im";
+
 function ClothContainer() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
+  const loading = useSelector((state) => state.products.loading);
+
   const { filter } = useFilterCloth();
-  const { products, fetchProducts, loading } = useProducts();
+
+  // const { products, fetchProducts, loading } = useProducts();
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    // fetchProducts();
+    dispatch(fetchProducts());
+    console.log(loading);
+  }, [dispatch]);
 
   return (
     <>
