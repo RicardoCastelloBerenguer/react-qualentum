@@ -6,6 +6,7 @@ import useProducts from "../../hooks/api/products";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addNewProduct, updateProduct } from "../../redux/slices/productSlice";
+import ProductForm from "../Forms/ProductForm";
 
 const AddProductModal = ({ closeModal, productToEdit }) => {
   // const { postProduct, editProductById, loading, error } = useProducts();
@@ -13,37 +14,31 @@ const AddProductModal = ({ closeModal, productToEdit }) => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
 
-  const [title, setTitle] = useState(productToEdit?.title || "");
-  const [description, setDescription] = useState(
-    productToEdit?.description || ""
-  );
-  const [price, setPrice] = useState(productToEdit?.price || 0);
-  const [image, setImage] = useState(productToEdit?.image || "");
-
-  const handleForm = async () => {
+  const handleForm = async (product) => {
+    console.log(product);
     let newProduct = {};
     if (productToEdit) {
       newProduct = {
         ...productToEdit,
         id: productToEdit.id,
-        title: title,
-        description: description,
-        price: price,
-        image: image,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        image: product.image,
       };
     } else {
       newProduct = {
-        title: title,
-        description: description,
-        price: price,
-        image: image,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        image: product.image,
       };
       console.log(newProduct);
     }
 
     try {
       if (productToEdit) {
-        console.log("test");
+        // console.log("test");
         await dispatch(updateProduct(newProduct));
       } else await dispatch(addNewProduct(newProduct));
       closeModal();
@@ -54,57 +49,11 @@ const AddProductModal = ({ closeModal, productToEdit }) => {
 
   return (
     <section className="fixed flex items-center justify-center z-50 top-0 left-0 w-full h-full bg-black bg-opacity-50">
-      <div className="relative bg-white w-full max-w-[470px] h-[70%] p-4 rounded-lg flex flex-col">
-        <header className="w-full flex justify-between mb-5">
-          <span className="text-center font-bold text-xl">
-            {productToEdit ? "EDITAR PRODUCTO : " : "NUEVO PRODUCTO"}
-          </span>
-          <button
-            onClick={closeModal}
-            className="p-1.5 rounded-full bg-gray-100"
-          >
-            <IoClose />
-          </button>
-        </header>
-        <section className="flex flex-col gap-1">
-          <header className="w-full flex items-center justify-center"></header>
-          <TextInput
-            placeholder="Título del producto..."
-            labelText="Título"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextInput
-            placeholder="Descripción del producto..."
-            labelText="Descripción"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextInput
-            placeholder="Precio del producto..."
-            labelText="Precio"
-            type={"number"}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          <TextInput
-            placeholder="Url de la imagen del producto..."
-            labelText="Imagen"
-            type={"url"}
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
-        </section>
-        <footer className="flex w-full justify-center mt-auto h-full items-center">
-          {!loading ? (
-            <Button onClick={handleForm} className={"px-5 py-3 rounded-md"}>
-              {productToEdit ? "EDITAR PRODUCTO" : "AÑADIR PRODUCTO"}
-            </Button>
-          ) : (
-            <div onClick={() => console.log(loading)}>Loading</div>
-          )}
-        </footer>
-      </div>
+      <ProductForm
+        productToEdit={productToEdit}
+        dispatchHandleForm={handleForm}
+        closeModal={closeModal}
+      />
     </section>
   );
 };
